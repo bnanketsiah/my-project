@@ -1,95 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Valentines Day</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .gradient-background {
-      background: rgb(255, 208, 229);
-      background: linear-gradient(180deg, rgba(255, 208, 229, 1) 0%, rgba(255, 232, 242, 1) 36%, rgba(255, 255, 255, 1) 100%);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
 
-    .bounce2 {
-      animation: bounce2 2s ease infinite;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
-    @keyframes bounce2 {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-20px);
-      }
-      60% {
-        transform: translateY(-10px);
-      }
-    }
-  </style>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+  background: black;
+  color: white;
+  text-align: center;
+  scroll-behavior: smooth;
+}
+
+/* GIF Background */
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: url('https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif') center/cover no-repeat;
+  z-index: -2;
+  opacity: 0.35;
+}
+
+/* Soft Dark Overlay */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+  z-index: -1;
+}
+
+/* Proposal Section */
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: opacity 1s ease;
+}
+
+.container.fade-out {
+  opacity: 0;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 30px;
+}
+
+button {
+  padding: 15px 40px;
+  margin: 10px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.yes {
+  background: #ff4d6d;
+  color: white;
+  box-shadow: 0 5px 20px rgba(255,77,109,0.6);
+}
+
+.no {
+  background: white;
+  color: black;
+  position: relative;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+/* Gallery Section */
+.gallery-section {
+  display: none;
+  padding: 80px 20px;
+  animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.gallery-title {
+  font-size: 2.5rem;
+  margin-bottom: 60px;
+}
+
+.photo-card {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 1.2s ease;
+  margin-bottom: 80px;
+}
+
+.photo-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.photo-card img {
+  width: 320px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(255, 77, 109, 0.6);
+}
+
+.love-message {
+  font-size: 1.2rem;
+  max-width: 500px;
+  margin: auto;
+  line-height: 1.6;
+}
+</style>
 </head>
-<body class="gradient-background">
-  <div class="flex items-center justify-center h-screen">
-    <div class="flex flex-col items-center p-4">
-      <img id="imageDisplay" src="./images/image1.gif" alt="Cute kitten with flowers" class="rounded-md h-[300px]" style="object-fit: cover;" />
-      <h2 id="valentineQuestion" class="text-4xl font-bold italic text-[#bd1e59] my-4">Will you be my Valentine?</h2>
-      <div class="flex gap-4 pt-[20px] items-center" id="responseButtons">
-        <button id="yesButton"
-          class="bounce2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-[20px] font-medium disabled:pointer-events-none disabled:opacity-50 hover:bg-green-400 min-h-12 min-w-[75px] px-4 py-2 bg-green-500 text-white transition">
-          Yes
-        </button>
-        <button id="noButton"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-[20px] font-medium transition disabled:pointer-events-none disabled:opacity-50 hover:bg-red-700 h-12 min-w-[75px] w-auto px-4 py-2 bg-red-500 text-white">
-          No
-        </button>
-      </div>
-    </div>
+
+<body>
+
+<div class="background"></div>
+<div class="overlay"></div>
+
+<div class="container" id="proposal">
+  <h1>Will You Be My Valentine? 💕</h1>
+  <button class="yes" onclick="sayYes()">Yes 💖</button>
+  <button class="no" onmouseover="moveNo()">No 😢</button>
+</div>
+
+<div class="gallery-section" id="gallery">
+  <h2 class="gallery-title">You Said Yes 💍❤️</h2>
+
+  <div class="photo-card">
+    <img src="image1.jpg" alt="Us">
+    <p class="love-message">Every moment with you feels like magic.</p>
   </div>
 
-  <script type="module">
-    import confetti from 'https://cdn.skypack.dev/canvas-confetti';
-    const yesButton = document.getElementById('yesButton');
-    const noButton = document.getElementById('noButton');
-    const imageDisplay = document.getElementById('imageDisplay');
-    const valentineQuestion = document.getElementById('valentineQuestion');
-    const responseButtons = document.getElementById('responseButtons');
-  
-    let noClickCount = 0;
-    let buttonHeight = 48; // Starting height in pixels
-    let buttonWidth = 80;
-    let fontSize = 20; // Starting font size in pixels
-    const imagePaths = [
-      "./images/image1.gif",
-      "./images/image2.gif",
-      "./images/image3.gif",
-      "./images/image4.gif",
-      "./images/image5.gif",
-      "./images/image6.gif",
-      "./images/image7.gif"
-    ];
-  
-    noButton.addEventListener('click', function() {
-      if (noClickCount < 5) {
-        noClickCount++;
-        imageDisplay.src = imagePaths[noClickCount];
-        buttonHeight += 35; // Increase height by 5px on each click
-        buttonWidth += 35;
-        fontSize += 25; // Increase font size by 1px on each click
-        yesButton.style.height = `${buttonHeight}px`; // Update button height
-        yesButton.style.width = `${buttonWidth}px`;
-        yesButton.style.fontSize = `${fontSize}px`; // Update font size
-        if (noClickCount < 6) {
-          noButton.textContent = ["No", "Are you sure?", "Pookie please", "Don't do this to me :(", "You're breaking my heart", "I'm gonna cry..."][noClickCount];
-        }
+  <div class="photo-card">
+    <img src="image2.jpg" alt="Us">
+    <p class="love-message">You are my peace, my happiness, my everything.</p>
+  </div>
+
+  <div class="photo-card">
+    <img src="image3.jpg" alt="Us">
+    <p class="love-message">Forever wouldn’t be long enough with you.</p>
+  </div>
+
+</div>
+
+<audio id="loveSong" src="a-thousand-years.mp3"></audio>
+
+<script>
+
+function moveNo() {
+  const btn = document.querySelector('.no');
+  btn.style.position = "absolute";
+  btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+  btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+}
+
+function sayYes() {
+  const proposal = document.getElementById('proposal');
+  proposal.classList.add("fade-out");
+
+  setTimeout(() => {
+    proposal.style.display = "none";
+    document.getElementById('gallery').style.display = "block";
+    window.scrollTo(0,0);
+    startMusic();
+    revealOnScroll();
+  }, 1000);
+}
+
+function startMusic() {
+  const song = document.getElementById("loveSong");
+  song.volume = 0;
+  song.play();
+
+  let fadeAudio = setInterval(() => {
+    if (song.volume < 0.9) {
+      song.volume += 0.05;
+    } else {
+      clearInterval(fadeAudio);
+    }
+  }, 200);
+}
+
+function revealOnScroll() {
+  const cards = document.querySelectorAll('.photo-card');
+
+  function checkScroll() {
+    cards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) {
+        setTimeout(() => {
+          card.classList.add('show');
+        }, index * 400); // stagger delay effect
       }
     });
-  
-    yesButton.addEventListener('click', () => {
-      imageDisplay.src = './images/image7.gif'; // Change to image7.gif
-      valentineQuestion.textContent = "Yayyy!! :3"; // Change the question text
-      responseButtons.style.display = 'none'; // Hide both buttons
-      confetti(); // Trigger confetti animation
-    });
-  </script>  
+  }
+
+  window.addEventListener('scroll', checkScroll);
+  checkScroll();
+}
+
+</script>
+
 </body>
 </html>
