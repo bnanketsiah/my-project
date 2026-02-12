@@ -3,221 +3,457 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Be My Valentine?</title>
+<title>For Maame Efua ❤️</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
 
-body {
-  overflow-x: hidden;
-  background: black;
-  color: white;
-  text-align: center;
-  scroll-behavior: smooth;
+body{
+  background:rgb(197, 18, 18)97, 18, 18);
+  color:white;
+  overflow-x:hidden;
+  text-align:center;
 }
 
-/* GIF Background */
-.background {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: url('https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif') center/cover no-repeat;
-  z-index: -2;
-  opacity: 0.35;
+/* ===== Proposal Background GIF ===== */
+.proposal-bg{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url("https://www.icegif.com/wp-content/uploads/valentines-day-icegif-27.gif") center/cover no-repeat;
+  z-index:-3;
+  opacity:0.4;
 }
 
-/* Soft Dark Overlay */
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
-  z-index: -1;
+/* ===== After YES Background (Image) ===== */
+.bg-image{
+  position:fixed;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-4;
+  display:none;
 }
 
-/* Proposal Section */
-.container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  transition: opacity 1s ease;
+/* ===== After YES Background (Video) ===== */
+.bg-video{
+  position:fixed;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-5;
+  display:none;
 }
 
-.container.fade-out {
-  opacity: 0;
+/* Overlay */
+.overlay{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+  z-index:-2;
 }
 
-h1 {
-  font-size: 3rem;
-  margin-bottom: 30px;
+/* ===== Proposal Section ===== */
+.container{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  transition:1s ease;
 }
 
-button {
-  padding: 15px 40px;
-  margin: 10px;
-  font-size: 1.2rem;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: 0.3s ease;
+.container.fade-out{
+  opacity:0;
+  transform:scale(1.05);
 }
 
-.yes {
-  background: #ff4d6d;
-  color: white;
-  box-shadow: 0 5px 20px rgba(255,77,109,0.6);
+h1{
+  font-size:2.6rem;
+  margin-bottom:25px;
+  padding:0 15px;
 }
 
-.no {
-  background: white;
-  color: black;
-  position: relative;
+button{
+  padding:15px 40px;
+  margin:10px;
+  font-size:1.2rem;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  transition:0.3s;
 }
 
-button:hover {
-  transform: scale(1.1);
+.yes{
+  background:#ff4d6d;
+  color:white;
+  box-shadow:0 8px 25px rgba(255,77,109,0.6);
 }
 
-/* Gallery Section */
-.gallery-section {
-  display: none;
-  padding: 80px 20px;
-  animation: fadeIn 2s ease forwards;
+.no{
+  background:white;
+  color:black;
+  position:relative;
 }
 
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+button:hover{
+  transform:scale(1.1);
 }
 
-.gallery-title {
-  font-size: 2.5rem;
-  margin-bottom: 60px;
+/* 🎁 Gift Section */
+.gift-box{
+  margin-top:30px;
 }
 
-.photo-card {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: all 1.2s ease;
-  margin-bottom: 80px;
+.gift-box img{
+  width:120px;
+  margin-top:15px;
+  border-radius:15px;
+  box-shadow:0 5px 20px rgba(255,77,109,0.6);
 }
 
-.photo-card.show {
-  opacity: 1;
-  transform: translateY(0);
+/* ===== Gallery ===== */
+.gallery{
+  display:none;
+  padding:100px 20px;
 }
 
-.photo-card img {
-  width: 320px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 10px 30px rgba(255, 77, 109, 0.6);
+.gallery h2{
+  font-size:2.3rem;
+  margin-bottom:70px;
 }
 
-.love-message {
-  font-size: 1.2rem;
-  max-width: 500px;
-  margin: auto;
-  line-height: 1.6;
+.card{
+  opacity:0;
+  transform:translateY(80px);
+  transition:1.2s ease;
+  margin-bottom:100px;
+}
+
+.card.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.card img,
+.card video{
+  width:90%;
+  max-width:420px;
+  border-radius:20px;
+  margin-bottom:20px;
+  box-shadow:0 10px 35px rgba(255,77,109,0.5);
+}
+
+.message{
+  max-width:600px;
+  margin:auto;
+  line-height:1.7;
+  font-size:1.1rem;
 }
 </style>
 </head>
 
 <body>
 
-<div class="background"></div>
+<!-- Proposal Background -->
+<div class="proposal-bg" id="proposalBg"></div>
+
+<!-- After YES Backgrounds -->
+<img src="sia.jpg" id="bgImage" class="bg-image">
+<video id="bgVideo" class="bg-video" autoplay loop muted playsinline>
+  <source src="WhatsApp Video 2026-02-11 at 9.37.18 PM.mp4" type="video/mp4">
+</video>
+
 <div class="overlay"></div>
 
+<!-- Proposal Section -->
 <div class="container" id="proposal">
   <h1>Will You Be My Valentine? 💕</h1>
   <button class="yes" onclick="sayYes()">Yes 💖</button>
   <button class="no" onmouseover="moveNo()">No 😢</button>
 </div>
 
-<div class="gallery-section" id="gallery">
-  <h2 class="gallery-title">You Said Yes 💍❤️</h2>
+<!-- Gallery Section -->
+<div class="gallery" id="gallery">
+  <h2>Two Beautiful Years With You ❤️</h2>
 
-  <div class="photo-card">
-    <img src="image1.jpg" alt="Us">
-    <p class="love-message">Every moment with you feels like magic.</p>
+  <!-- 1 -->
+  <div class="card">
+    <img src="WhatsApp Image 2026-02-11 at 8.44.02 PM (2).jpeg">
+    <p class="message">March changed my life the day I met you. I didn’t know then that you would become my whole world.</p>
   </div>
 
-  <div class="photo-card">
-    <img src="image2.jpg" alt="Us">
-    <p class="love-message">You are my peace, my happiness, my everything.</p>
+  <!-- 2 -->
+  <div class="card">
+    <video autoplay loop muted playsinline>
+      <source src="WhatsApp Video 2026-02-11 at 9.38.25 PM.mp4" type="video/mp4">
+    </video>
+    <p class="message">From our very first moments, something about us just felt right.</p>
   </div>
 
-  <div class="photo-card">
-    <img src="image3.jpg" alt="Us">
-    <p class="love-message">Forever wouldn’t be long enough with you.</p>
+  <!-- 3 -->
+  <div class="card">
+    <img src="WhatsApp Image 2026-02-11 at 8.44.00 PM.jpeg">
+    <p class="message">Your smile still makes my heart race the same way it did two years ago.</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="card">
+    <video autoplay loop muted playsinline>
+      <source src="WhatsApp Video 2026-02-11 at 9.46.28 PM.mp4" type="video/mp4">
+    </video>
+    <p class="message">The way we laugh together is my favorite sound in the world.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="card">
+    <img src="WhatsApp Image 2026-02-11 at 8.44.00 PM.jpeg">
+    <p class="message">You’ve brought peace into my life in ways I never expected.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="card">
+    <video autoplay loop muted playsinline>
+      <source src="WhatsApp Video 2026-02-11 at 9.37.55 PM.mp4" type="video/mp4">
+    </video>
+    <p class="message">Every memory with you is something I hold close to my heart.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="card">
+    <img src="WhatsApp Image 2026-02-11 at 8.44.02 PM.jpeg">
+    <p class="message">Two years later, and I still look at you like you’re my greatest blessing.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="card">
+    <video autoplay loop muted playsinline>
+      <source src="WhatsApp Video 2026-02-11 at 9.37.27 PM.mp4" type="video/mp4">
+    </video>
+    <p class="message">With you, ordinary days become unforgettable moments.</p>
+  </div>
+
+  <!-- 9 -->
+  <div class="card">
+    <img src="WhatsApp Image 2026-02-11 at 8.44.02 PM (1).jpeg">
+    <p class="message">Maame Efua, loving you has been the easiest decision of my life.</p>
+  </div>
+
+  <!-- 10 -->
+  <div class="card">
+    <video autoplay loop muted playsinline>
+      <source src="WhatsApp Video 2026-02-11 at 9.37.18 PM.mp4" type="video/mp4">
+    </video>
+    <p class="message">And if I could choose again, I would still choose you. Every time. Forever.</p>
+  </div>
+  <!-- Final Romantic Section -->
+<div class="final-section" id="finalSection" style="display:none; padding:80px 20px; text-align:center; color:white;">
+  
+ <!-- Final Romantic Section -->
+<div class="final-section" id="finalSection" style="display:none; padding:80px 20px; text-align:center; color:white;">
+
+  <div class="final-message" style="margin-bottom:40px; font-size:1.4rem; line-height:1.7; max-width:700px; margin:auto; position:relative;">
+
+    <div class="question active" id="q1">
+      <p>Sometimes I sit and wonder… Did you know you would mean this much to me?</p>
+      <div class="btn-wrap">
+        <button class="yes-q" onclick="nextQ(1)">Yes ❤️</button>
+        <button class="no-q" onmouseover="runAway(this)">No 😅</button>
+      </div>
+    </div>
+
+    <div class="question" id="q2">
+      <p>Do you know how happy you make me without even trying?</p>
+      <div class="btn-wrap">
+        <button class="yes-q" onclick="nextQ(2)">Of course 💕</button>
+        <button class="no-q" onmouseover="runAway(this)">No 😏</button>
+      </div>
+    </div>
+
+    <div class="question" id="q3">
+      <p>Can you imagine how many more memories we will create together?</p>
+      <div class="btn-wrap">
+        <button class="yes-q" onclick="nextQ(3)">I Can 😍</button>
+        <button class="no-q" onmouseover="runAway(this)">No 🙈</button>
+      </div>
+    </div>
+
+    <div class="question" id="q4">
+      <p>And most importantly… will you keep letting me love you more every single day? ❤️</p>
+      <div class="btn-wrap">
+        <button class="yes-q" onclick="finishQ()">Always 💍</button>
+        <button class="no-q" onmouseover="runAway(this)">No 😅</button>
+      </div>
+    </div>
+
+  </div>
+
+  <video id="finalVideo" width="50%" autoplay loop muted playsinline 
+         style="border-radius:20px; box-shadow:0 10px 35px rgba(255,77,109,0.5); margin-bottom:30px; display:none;">
+    <source src="last one.mp4" type="video/mp4">
+  </video>
+
+  <div style="text-align:center; margin-top:40px;">
+    <a href="loveleter.html" style="text-decoration:none; color:white; font-size:2rem;">
+      💌 Click me for a special message
+    </a>
   </div>
 
 </div>
 
-<audio id="loveSong" src="a-thousand-years.mp3"></audio>
+ <!-- Video -->
+<video id="finalVideo" width="50px" max-width="500px" autoplay loop muted playsinline 
+       style="border-radius:20px; box-shadow:0 10px 35px rgba(255,77,109,0.5); margin-bottom:30px;">
+  <source src="last one.mp4" type="video/mp4">
+</video>
+
+  <!-- Call to Action -->
+  <div class="memory-prompt" style="margin-top:20px;">
+    <h3 style="margin-bottom:20px;">Would you like to make more memories together? 💕</h3>
+    <button onclick="alert('I knew you would say yes! ❤️ Let’s make every moment special.');" 
+            style="padding:15px 30px; font-size:1.2rem; border:none; border-radius:30px; background:#ff4d6d; color:white; cursor:pointer; margin-right:15px;">
+      Yes! 💖
+    </button>
+    <button onclick="alert('No worries 😢 I will wait patiently for you.');" 
+            style="padding:15px 30px; font-size:1.2rem; border:none; border-radius:30px; background:white; color:black; cursor:pointer;">
+      Not yet 😢
+    </button>
+  </div>
+
+</div>
+
+<script>
+// Function to reveal final section after the gallery
+function showFinalSection() {
+  const finalSection = document.getElementById("finalSection");
+  finalSection.style.display = "block";
+  finalSection.scrollIntoView({ behavior: "smooth" });
+}
+
+// Example: Call this function after the last card is revealed
+// You can also tie it to a "next" button if you want
+window.addEventListener('load', () => {
+  const lastCard = document.querySelectorAll('.card');
+  if(lastCard.length){
+    const last = lastCard[lastCard.length-1];
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          setTimeout(showFinalSection, 700); // small delay after last card
+        }
+      });
+    }, {threshold:0.5});
+    observer.observe(last);
+  }
+});
+function showFinalSection() {
+  const finalSection = document.getElementById("finalSection");
+  finalSection.style.display = "block";
+  finalSection.scrollIntoView({ behavior: "smooth" });
+
+  // Fade in the video nicely
+  const video = document.getElementById("finalVideo");
+  setTimeout(() => {
+    video.classList.add("show"); // optional if you use fade-in CSS
+  }, 300);
+}
+
+</script>
+
+
+  <!-- Love Letter Icon -->
+<div class="card" style="text-align:center;">
+  <a href="loveleter.html" style="text-decoration:none; color:white; font-size:3rem;">
+    💌 Click me for a special message
+  </a>
+</div>
+
+
+</div>
+
+<audio id="loveSong" src="John Legend - All of Me (Lyrics) [ngq5Aw0Q6rQ].mp3"></audio>
 
 <script>
 
-function moveNo() {
-  const btn = document.querySelector('.no');
-  btn.style.position = "absolute";
-  btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
-  btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+/* Move No Button */
+function moveNo(){
+  const btn=document.querySelector(".no");
+  btn.style.position="absolute";
+  btn.style.top=Math.random()*(window.innerHeight-60)+"px";
+  btn.style.left=Math.random()*(window.innerWidth-120)+"px";
 }
 
-function sayYes() {
-  const proposal = document.getElementById('proposal');
+/* When Yes is clicked */
+function sayYes(){
+
+  // Save that YES was clicked
+  localStorage.setItem("saidYes", "true");
+
+  const proposal=document.getElementById("proposal");
   proposal.classList.add("fade-out");
 
-  setTimeout(() => {
-    proposal.style.display = "none";
-    document.getElementById('gallery').style.display = "block";
-    window.scrollTo(0,0);
+  setTimeout(()=>{
+    proposal.style.display="none";
+    document.getElementById("proposalBg").style.display="none";
+    document.getElementById("gallery").style.display="block";
+
+    const bgVideo=document.getElementById("bgVideo");
+    bgVideo.style.display="block";
+    bgVideo.play();
+
     startMusic();
-    revealOnScroll();
-  }, 1000);
+    revealCards();
+  },1000);
 }
 
-function startMusic() {
-  const song = document.getElementById("loveSong");
-  song.volume = 0;
+
+
+/* Music Fade In */
+function startMusic(){
+  const song=document.getElementById("loveSong");
+  song.volume=0;
   song.play();
 
-  let fadeAudio = setInterval(() => {
-    if (song.volume < 0.9) {
-      song.volume += 0.05;
-    } else {
-      clearInterval(fadeAudio);
+  let fade=setInterval(()=>{
+    if(song.volume<0.9){
+      song.volume+=0.05;
+    } else{
+      clearInterval(fade);
     }
-  }, 200);
+  },200);
 }
 
-function revealOnScroll() {
-  const cards = document.querySelectorAll('.photo-card');
+/* Scroll Animation */
+function revealCards(){
+  const cards=document.querySelectorAll(".card");
 
-  function checkScroll() {
-    cards.forEach((card, index) => {
-      const rect = card.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 100) {
-        setTimeout(() => {
-          card.classList.add('show');
-        }, index * 400); // stagger delay effect
+  function check(){
+    cards.forEach((card,index)=>{
+      const rect=card.getBoundingClientRect();
+      if(rect.top<window.innerHeight-100){
+        setTimeout(()=>{
+          card.classList.add("show");
+        },index*350);
       }
     });
   }
 
-  window.addEventListener('scroll', checkScroll);
-  checkScroll();
+  window.addEventListener("scroll",check);
+  check();
 }
+
+
 
 </script>
 
